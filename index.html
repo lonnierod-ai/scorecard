@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Check — Lonnie Rodriguez</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --maroon: #8B3A3A;
+  --maroon-light: #A84A4A;
+  --maroon-pale: #f5eeee;
+  --off-white: #F7F4F0;
+  --warm-tan: #E8E2D9;
+  --dark: #1A1A1A;
+  --mid: #4A4A4A;
+  --light: #7A7A7A;
+  --border: #D4CCC4;
+}
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--off-white);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+#sc-wrap {
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Progress bar */
+#sc-progress-wrap {
+  margin-bottom: 40px;
+}
+
+#sc-progress-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--light);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#sc-progress-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+#sc-progress-fill {
+  height: 100%;
+  background: var(--maroon);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* Card */
+#sc-card {
+  background: white;
+  border-radius: 4px;
+  padding: 52px 52px 44px;
+  box-shadow: 0 2px 40px rgba(0,0,0,0.07);
+}
+
+#sc-q-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 16px;
+}
+
+#sc-question {
+  font-family: 'Manrope', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+}
+
+.sc-option {
+  width: 100%;
+  text-align: left;
+  background: var(--off-white);
+  border: 1.5px solid var(--border);
+  border-radius: 3px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sc-option:hover {
+  border-color: var(--maroon);
+  background: var(--maroon-pale);
+  color: var(--dark);
+}
+
+.sc-option-letter {
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--light);
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.sc-option:hover .sc-option-letter {
+  color: var(--maroon);
+}
+
+/* Result */
+#sc-result { display: none; }
+
+#sc-result-badge {
+  display: inline-block;
+  background: var(--maroon-pale);
+  color: var(--maroon);
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+#sc-result-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+#sc-result-tagline {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 16px;
+  color: var(--maroon);
+  font-weight: 600;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+
+.sc-result-divider {
+  width: 40px;
+  height: 2px;
+  background: var(--maroon);
+  margin-bottom: 28px;
+}
+
+#sc-result-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--mid);
+  margin-bottom: 20px;
+}
+
+#sc-result-close {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--mid);
+  margin-bottom: 36px;
+}
+
+.sc-cta-btn {
+  display: inline-block;
+  background: var(--maroon);
+  color: white;
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 2px;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.sc-cta-btn:hover { background: var(--maroon-light); }
+
+.sc-retake {
+  display: block;
+  background: none;
+  border: none;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  color: var(--light);
+  cursor: pointer;
+  margin-top: 8px;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.sc-retake:hover { color: var(--maroon); }
+
+/* Transitions */
+.fade-out { opacity: 0; transition: opacity 0.2s ease; }
+.fade-in { opacity: 1; transition: opacity 0.25s ease 0.05s; }
+
+@media (max-width: 600px) {
+  #sc-card { padding: 36px 28px 32px; }
+  #sc-question { font-size: 21px; }
+}
+</style>
+</head>
+<body>
+<div id="sc-wrap">
+  <div id="sc-progress-wrap">
+    <div id="sc-progress-label">
+      <span id="sc-step-text">Question 1 of 6</span>
+      <span id="sc-pct-text">0%</span>
+    </div>
+    <div id="sc-progress-bar"><div id="sc-progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="sc-card">
+    <!-- Question view -->
+    <div id="sc-q-view">
+      <div id="sc-q-label">AI Readiness Check</div>
+      <div id="sc-question"></div>
+      <div id="sc-options"></div>
+    </div>
+
+    <!-- Result view -->
+    <div id="sc-result">
+      <div id="sc-result-badge">Your Profile</div>
+      <div id="sc-result-name"></div>
+      <div id="sc-result-tagline"></div>
+      <div class="sc-result-divider"></div>
+      <div id="sc-result-body"></div>
+      <div id="sc-result-close"></div>
+      <a href="https://calendly.com/lonnierodriguez/discovery-call" target="_blank" class="sc-cta-btn">Book a Free Discovery Call</a>
+      <br>
+      <button class="sc-retake" onclick="reset()">Take it again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CALENDLY = 'https://calendly.com/lonnierodriguez/discovery-call';
+
+const questions = [
+  {
+    label: 'Question 1 of 6',
+    text: 'When it comes to AI tools — ChatGPT, Claude, whatever you may have tried — where are you right now?',
+    options: [
+      { text: "Haven't touched any of it yet.", profile: 'skeptic' },
+      { text: "Tried a couple things, nothing really stuck.", profile: 'experimenter' },
+      { text: "I use something here and there — just not consistently.", profile: 'operator' },
+      { text: "Using AI regularly in at least one part of my business.", profile: 'builder' }
+    ]
+  },
+  {
+    label: 'Question 2 of 6',
+    text: 'What brings you here? Be honest.',
+    options: [
+      { text: "I want to learn — someone to actually sit with me and show me how to use these tools.", mode: 'coaching' },
+      { text: "I need to figure out where AI fits in my business before I do anything else.", mode: 'consulting' },
+      { text: "Both, honestly. I want to learn and I want a real plan.", mode: 'both' },
+      { text: "Not totally sure. I just know something needs to change.", mode: 'unsure' }
+    ]
+  },
+  {
+    label: 'Question 3 of 6',
+    text: "Be honest — where does your day go that you wish it didn't?",
+    options: [
+      { text: "Admin work. Emails, scheduling, paperwork that never ends." },
+      { text: "Managing people and client communication." },
+      { text: "Creating things — proposals, content, reports, estimates." },
+      { text: "Operations. Stuff that should run itself but doesn't." }
+    ]
+  },
+  {
+    label: 'Question 4 of 6',
+    text: 'How many people are you working with day to day?',
+    options: [
+      { text: "Just me — or me plus a contractor or VA." },
+      { text: "2–10 people." },
+      { text: "11–30 people." },
+      { text: "30 or more." }
+    ]
+  },
+  {
+    label: 'Question 5 of 6',
+    text: "If you've tried AI tools and they didn't stick — what went wrong?",
+    options: [
+      { text: "Haven't really tried anything yet." },
+      { text: "Couldn't figure out how to make it useful for my actual work." },
+      { text: "Got some use out of it personally but couldn't get my team on board." },
+      { text: "Actually — I am using AI. I just want to use it smarter." }
+    ]
+  },
+  {
+    label: 'Question 6 of 6',
+    text: 'What would it actually mean for your business if AI was finally working inside it?',
+    options: [
+      { text: "I'd get my time back and stop drowning in things that shouldn't need me." },
+      { text: "I could focus on the work I started this business to do." },
+      { text: "My team would stop depending on me for every little thing." },
+      { text: "Honestly — all of the above. Where do I sign?" }
+    ]
+  }
+];
+
+const profiles = {
+  skeptic: {
+    name: 'The Curious Skeptic',
+    tagline: "You're not behind. You're just waiting for the right starting point.",
+    body: "Most business owners I talk to who haven't started yet aren't lazy or resistant — they're busy, and they've watched too many overhyped tools come and go. That skepticism is actually a good sign. It means you won't chase shiny objects. It means when you do start, you'll want it to actually work.",
+  },
+  experimenter: {
+    name: 'The Frustrated Experimenter',
+    tagline: "The tools weren't the problem. The starting point was.",
+    body: "You've tried things. Maybe ChatGPT for a few weeks, maybe something else. It felt useful for a minute and then just... didn't fit into how you actually work. That's not a failure — that's what happens when you start with the tool instead of the problem. The right approach starts somewhere different.",
+  },
+  operator: {
+    name: 'The Ready Operator',
+    tagline: "You're using AI. You're just not getting everything out of it.",
+    body: "You've got something working — which puts you ahead of most people. But you can feel the gap between what you're doing and what's actually possible. The issue usually isn't the tool. It's that you're missing a system — a repeatable way to use AI across your actual workflow instead of just one task at a time.",
+  },
+  builder: {
+    name: 'The Growth-Ready Builder',
+    tagline: "You're already moving. Let's make sure you're moving in the right direction.",
+    body: "AI is part of how you work — and you want more. More consistency, more leverage, more capability. The question at your stage isn't 'should I use AI?' It's 'which workflows are ready for the next level, and what's the smartest way to get there?' That's exactly the conversation worth having.",
+  }
+};
+
+const modeClose = {
+  coaching: "What I hear from people at your stage is that they don't need another course or another YouTube tutorial. They need someone to sit with their actual business and make the tools work in real time. That's what the coaching engagement is built for.",
+  consulting: "Before we talk tools, we talk business. A structured look at where your time goes, where things slow down, and where AI can do the most work. You leave with a clear picture of what to tackle first — whether we keep working together after that or not.",
+  both: "The good news is both paths lead to the same place: AI actually working in your business. We'd start with a discovery conversation to figure out the right sequence — sometimes the audit comes first, sometimes we jump straight into coaching. That's what the call is for.",
+  unsure: "That's a completely honest answer — and honestly, it's where most of my best clients started. Not sure what they needed, just sure something needed to change. The discovery call exists exactly for that moment. No pressure. No pitch. Just a real conversation about your business."
+};
+
+let cQ = 0, ans = {}, profile = 'skeptic', mode = 'unsure';
+
+function render() {
+  const qView = document.getElementById('sc-q-view');
+  const rView = document.getElementById('sc-result');
+
+  if (cQ >= questions.length) {
+    // Show result
+    qView.style.display = 'none';
+    rView.style.display = 'block';
+
+    const p = profiles[profile];
+    document.getElementById('sc-result-name').textContent = p.name;
+    document.getElementById('sc-result-tagline').textContent = p.tagline;
+    document.getElementById('sc-result-body').textContent = p.body;
+    document.getElementById('sc-result-close').innerHTML = `<p>${modeClose[mode]}</p>`;
+
+    // Pass profile and mode via UTM parameters
+    // Shows in your Calendly confirmation email but never visible to the invitee
+    const profileLabel = encodeURIComponent(p.name);
+    const modeLabel = encodeURIComponent(mode);
+    const calendlyURL = `${CALENDLY}?utm_source=scorecard&utm_medium=website&utm_content=${profileLabel}&utm_campaign=${modeLabel}`;
+    document.querySelector('.sc-cta-btn').href = calendlyURL;
+
+    document.getElementById('sc-progress-fill').style.width = '100%';
+    document.getElementById('sc-step-text').textContent = 'Your results';
+    document.getElementById('sc-pct-text').textContent = '100%';
+    document.getElementById('sc-progress-wrap').style.display = 'block';
+    return;
+  }
+
+  const q = questions[cQ];
+  const pct = Math.round((cQ / questions.length) * 100);
+
+  document.getElementById('sc-progress-fill').style.width = pct + '%';
+  document.getElementById('sc-step-text').textContent = q.label;
+  document.getElementById('sc-pct-text').textContent = pct + '%';
+  document.getElementById('sc-q-label').textContent = 'AI Readiness Check';
+  document.getElementById('sc-question').textContent = q.text;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const optWrap = document.getElementById('sc-options');
+  optWrap.innerHTML = '';
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'sc-option';
+    btn.innerHTML = `<span class="sc-option-letter">${letters[i]}</span><span>${opt.text}</span>`;
+    btn.onclick = () => {
+      if (opt.profile) profile = opt.profile;
+      if (opt.mode) mode = opt.mode;
+      cQ++;
+
+      // Fade transition
+      document.getElementById('sc-card').classList.add('fade-out');
+      setTimeout(() => {
+        render();
+        document.getElementById('sc-card').classList.remove('fade-out');
+        document.getElementById('sc-card').classList.add('fade-in');
+        setTimeout(() => document.getElementById('sc-card').classList.remove('fade-in'), 300);
+      }, 200);
+    };
+    optWrap.appendChild(btn);
+  });
+
+  qView.style.display = 'block';
+  rView.style.display = 'none';
+}
+
+function reset() {
+  cQ = 0; ans = {}; profile = 'skeptic'; mode = 'unsure';
+  document.getElementById('sc-q-view').style.display = 'block';
+  document.getElementById('sc-result').style.display = 'none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
