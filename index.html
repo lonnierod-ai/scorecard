@@ -250,7 +250,7 @@ const questions = [
   {
     label: 'Question 1 of 6',
     text: 'When it comes to AI tools — ChatGPT, Claude, whatever you may have tried — where are you right now?',
-    field: 'Q1 — AI Experience',
+    field: 'Q1',
     options: [
       { text: "Haven't touched any of it yet.", profile: 'skeptic' },
       { text: "Tried a couple things, nothing really stuck.", profile: 'experimenter' },
@@ -261,7 +261,7 @@ const questions = [
   {
     label: 'Question 2 of 6',
     text: 'What brings you here? Be honest.',
-    field: 'Q2 — Looking For',
+    field: 'Q2',
     options: [
       { text: "I want to learn — someone to actually sit with me and show me how to use these tools.", mode: 'coaching' },
       { text: "I need to figure out where AI fits in my business before I do anything else.", mode: 'consulting' },
@@ -272,7 +272,7 @@ const questions = [
   {
     label: 'Question 3 of 6',
     text: "Be honest — where does your day go that you wish it didn't?",
-    field: 'Q3 — Time Drain',
+    field: 'Q3',
     options: [
       { text: "Admin work. Emails, scheduling, paperwork that never ends." },
       { text: "Managing people and client communication." },
@@ -283,7 +283,7 @@ const questions = [
   {
     label: 'Question 4 of 6',
     text: 'How many people are you working with day to day?',
-    field: 'Q4 — Team Size',
+    field: 'Q4',
     options: [
       { text: "Just me — or me plus a contractor or VA." },
       { text: "2–10 people." },
@@ -294,7 +294,7 @@ const questions = [
   {
     label: 'Question 5 of 6',
     text: "If you've tried AI tools and they didn't stick — what went wrong?",
-    field: 'Q5 — What Went Wrong',
+    field: 'Q5',
     options: [
       { text: "Haven't really tried anything yet." },
       { text: "Couldn't figure out how to make it useful for my actual work." },
@@ -305,7 +305,7 @@ const questions = [
   {
     label: 'Question 6 of 6',
     text: 'What would it actually mean for your business if AI was finally working inside it?',
-    field: 'Q6 — Success Looks Like',
+    field: 'Q6',
     options: [
       { text: "I'd get my time back and stop drowning in things that shouldn't need me." },
       { text: "I could focus on the work I started this business to do." },
@@ -412,15 +412,14 @@ async function submitAndBook() {
   const record = {
     fields: {
       'Name': nameVal || 'Anonymous',
-      'Q1 — AI Experience': answers['Q1 — AI Experience'] || '',
-      'Q2 — Looking For': answers['Q2 — Looking For'] || '',
-      'Q3 — Time Drain': answers['Q3 — Time Drain'] || '',
-      'Q4 — Team Size': answers['Q4 — Team Size'] || '',
-      'Q5 — What Went Wrong': answers['Q5 — What Went Wrong'] || '',
-      'Q6 — Success Looks Like': answers['Q6 — Success Looks Like'] || '',
+      'Q1': answers['Q1'] || '',
+      'Q2': answers['Q2'] || '',
+      'Q3': answers['Q3'] || '',
+      'Q4': answers['Q4'] || '',
+      'Q5': answers['Q5'] || '',
+      'Q6': answers['Q6'] || '',
       'Profile': p.name,
       'Mode': mode,
-      'Submitted': new Date().toISOString().split('T')[0]
     }
   };
 
